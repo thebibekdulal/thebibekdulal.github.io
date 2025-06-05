@@ -1113,6 +1113,8 @@
             </p>
             <div class="contact-form-container">
                 <form id="contactForm" class="contact-form">
+                    action="https://formspree.io/f/xanjnvqb" <!-- PASTE YOUR FORM ID HERE -->
+                      method="POST">
                     <div>
                         <label for="senderName">Your Name*</label>
                         <input type="text" id="senderName" name="senderName" required>
@@ -1129,6 +1131,16 @@
                         <label for="messageContent">Your Message*</label>
                         <textarea id="messageContent" name="messageContent" required></textarea>
                     </div>
+
+                      <!-- Optional: Honeypot field for basic spam protection (hidden from users) -->
+                <input type="text" name="_gotcha" style="display:none">
+
+                <!-- Optional: Redirect to a custom thank you page after submission -->
+                <!-- Create a thankyou.html page and uncomment the line below: -->
+                <!-- <input type="hidden" name="_next" value="https://yourdomain.com/thankyou.html"> -->
+                <!-- Or if thankyou.html is in the same folder: -->
+                <!-- <input type="hidden" name="_next" value="thankyou.html"> -->
+                    
                     <button type="submit">Send Message</button>
                 </form>
             </div>
@@ -1314,37 +1326,37 @@
         */
 
 
-        // --- Contact Form Submission ---
-        if (contactForm) {
-            contactForm.addEventListener('submit', function(e) {
-                e.preventDefault();
+        // // --- Contact Form Submission ---
+        // if (contactForm) {
+        //     contactForm.addEventListener('submit', function(e) {
+        //         e.preventDefault();
 
-                const nameEl = document.getElementById('senderName');
-                const emailEl = document.getElementById('senderEmail');
-                const messageEl = document.getElementById('messageContent');
+        //         const nameEl = document.getElementById('senderName');
+        //         const emailEl = document.getElementById('senderEmail');
+        //         const messageEl = document.getElementById('messageContent');
 
-                const name = nameEl ? nameEl.value.trim() : '';
-                const email = emailEl ? emailEl.value.trim() : '';
-                const message = messageEl ? messageEl.value.trim() : '';
+        //         const name = nameEl ? nameEl.value.trim() : '';
+        //         const email = emailEl ? emailEl.value.trim() : '';
+        //         const message = messageEl ? messageEl.value.trim() : '';
 
-                function validateEmail(email) {
-                    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                    return re.test(String(email).toLowerCase());
-                }
+        //         function validateEmail(email) {
+        //             const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        //             return re.test(String(email).toLowerCase());
+        //         }
 
-                if (!name || !email || !message) {
-                     alert('Please fill in all required fields.');
-                     return;
-                }
-                if (!validateEmail(email)) {
-                    alert('Please enter a valid email address.');
-                    return;
-                }
+        //         if (!name || !email || !message) {
+        //              alert('Please fill in all required fields.');
+        //              return;
+        //         }
+        //         if (!validateEmail(email)) {
+        //             alert('Please enter a valid email address.');
+        //             return;
+        //         }
 
-                alert(`Thank you, ${name}! Your message has been notionally sent.\n(This is a demo; no email was actually sent.)`);
-                this.reset();
-            });
-        }
+        //         alert(`Thank you, ${name}! Your message has been notionally sent.\n(This is a demo; no email was actually sent.)`);
+        //         this.reset();
+        //     });
+        // }
 
         console.log('🚀 Bibek Dulal Portfolio Website Initialized!');
     </script>
