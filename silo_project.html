@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- IMPORTANT: Change this title for each project detail page you create from this template -->
+    <title>Project Detail - Bibek Dulal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Styles from main page - IMPORTANT for consistent theme -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Dark Theme (Default) */
+            --bg-primary-dark: #121212;
+            --bg-secondary-dark: #1e1e1e;
+            --bg-hero-split-dark: #0a0a0a; /* Not used on detail page, but kept for variable consistency */
+            --text-primary-dark: #e0e0e0;
+            --text-secondary-dark: #a0a0a0;
+            --accent-color-dark: #ffffff;
+            --border-color-dark: #444444;
+            --shadow-dark: 0 5px 15px rgba(0, 0, 0, 0.2);
+            --shadow-lg-dark: 0 10px 30px rgba(0, 0, 0, 0.3);
+            --navbar-bg-transparent-dark: rgba(18, 18, 18, 0.85);
+
+            /* Light Theme */
+            --bg-primary-light: #f4f6f8;
+            --bg-secondary-light: #ffffff;
+            --bg-hero-split-light: #e9ecef; /* Not used on detail page */
+            --text-primary-light: #212529;
+            --text-secondary-light: #6c757d;
+            --accent-color-light: #007bff;
+            --border-color-light: #dee2e6;
+            --shadow-light: 0 5px 15px rgba(0, 0, 0, 0.1);
+            --shadow-lg-light: 0 10px 30px rgba(0, 0, 0, 0.15);
+            --navbar-bg-transparent-light: rgba(244, 246, 248, 0.85);
+
+            /* Universal Variables (initially set to dark theme values) */
+            --bg-primary: var(--bg-primary-dark);
+            --bg-secondary: var(--bg-secondary-dark);
+            --text-primary: var(--text-primary-dark);
+            --text-secondary: var(--text-secondary-dark);
+            --accent-color: var(--accent-color-dark);
+            --border-color: var(--border-color-dark);
+            --shadow: var(--shadow-dark);
+            --navbar-bg-transparent: var(--navbar-bg-transparent-dark);
+        }
+
+        body.light-theme {
+            --bg-primary: var(--bg-primary-light);
+            --bg-secondary: var(--bg-secondary-light);
+            --text-primary: var(--text-primary-light);
+            --text-secondary: var(--text-secondary-light);
+            --accent-color: var(--accent-color-light);
+            --border-color: var(--border-color-light);
+            --shadow: var(--shadow-light);
+            --navbar-bg-transparent: var(--navbar-bg-transparent-light);
+        }
+
+        body {
+            font-family: 'Open Sans', 'Lato', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7;
+            color: var(--text-primary);
+            background-color: var(--bg-primary);
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .container { /* General container class */
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Navigation Styles (Same as index.html) */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: var(--navbar-bg-transparent);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: background-color 0.3s ease, padding 0.3s ease, box-shadow 0.3s ease;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .navbar.scrolled {
+            background: var(--bg-primary); /* Solid background on scroll */
+            padding: 0.75rem 0;
+            box-shadow: var(--shadow);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 1rem;
+        }
+
+        .logo {
+            text-decoration: none;
+            display: inline-block;
+            height: 50px;
+            line-height: 40px;
+            vertical-align: middle;
+        }
+        .logo-image {
+            height: 100%;
+            width: auto;
+            display: none;
+            vertical-align: middle;
+        }
+        .logo-img-dark-theme { display: inline-block; }
+        body.light-theme .logo-img-dark-theme { display: none; }
+        body.light-theme .logo-img-light-theme { display: inline-block; }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+        .nav-links a:not(.nav-btn) {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: color 0.3s ease;
+            font-size: 0.95rem;
+        }
+        .nav-links a:not(.nav-btn):hover { color: var(--accent-color); }
+        /* No .active-link needed for project detail page nav items as they mostly link back to index.html sections */
+
+        .nav-btn { /* For "Contact Me" or similar buttons in nav */
+            padding: 0.6rem 1.5rem;
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            background-color: transparent;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        .nav-btn:hover {
+            background-color: var(--accent-color);
+            color: var(--bg-primary);
+        }
+
+        .theme-toggle-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            margin-left: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.3s ease;
+        }
+        .theme-toggle-btn:hover { color: var(--accent-color); }
+        body.light-theme .theme-toggle-btn .fa-sun { color: #FDB813; }
+        body.light-theme .theme-toggle-btn:hover .fa-sun { color: #e0a800; }
+
+        .mobile-menu-icon {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+        .mobile-menu-icon span {
+            width: 28px;
+            height: 3px;
+            background: var(--accent-color);
+            border-radius: 2px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Footer Styles (Same as index.html) */
+        .footer {
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            text-align: center;
+            padding: 3rem 0;
+            border-top: 1px solid var(--border-color);
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+        .footer p {
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        .footer-social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+        .footer-social-links a {
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+        .footer-social-links a:hover { color: var(--accent-color); }
+
+        /* Project Detail Page Specific Styles */
+        .project-detail-page-wrapper { /* Wrapper to ensure footer is pushed down */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .project-detail-main-content {
+            flex-grow: 1;
+            padding-top: 8rem; /* Adjust for fixed navbar height */
+            padding-bottom: 4rem;
+        }
+        .project-detail-container {
+            max-width: 900px; /* Content width for readability */
+            margin: 2rem auto; /* Spacing from top (after navbar) and bottom */
+            padding: 2.5rem;
+            background-color: var(--bg-secondary);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+        }
+        .project-detail-container h1.project-page-title { /* Title for the project on this page */
+            font-size: 2.2rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        .project-detail-container h2 { /* Subheadings within the project detail */
+            font-size: 1.6rem;
+            color: var(--text-primary);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+        .project-detail-container img.project-image-large,
+        .project-detail-container .image-gallery img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 6px;
+            margin-top: 0.5rem;
+            margin-bottom: 1.5rem;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        body.dark-theme .project-detail-container img.project-image-large,
+        body.dark-theme .project-detail-container .image-gallery img {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .project-detail-container p,
+        .project-detail-container li {
+            font-size: 1.05rem;
+            color: var(--text-primary);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+        .project-detail-container p {
+             text-align: justify;
+        }
+        .project-detail-container ul,
+        .project-detail-container ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .project-detail-container .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+            margin-bottom: 2rem;
+        }
+        .back-to-portfolio-link {
+            display: inline-block;
+            margin-top: 2.5rem;
+            padding: 0.7rem 1.8rem;
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+        .back-to-portfolio-link:hover {
+            background-color: var(--accent-color);
+            color: var(--bg-primary);
+        }
+        .back-to-portfolio-link i {
+            margin-right: 0.5rem;
+        }
+
+        /* Responsive for Nav (Same as index.html) */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--bg-primary);
+                flex-direction: column;
+                padding: 1rem 0;
+                border-top: 1px solid var(--border-color);
+                box-shadow: var(--shadow);
+            }
+            .nav-links.active { display: flex; }
+            .nav-links li {
+                padding: 0.8rem 0;
+                text-align: center;
+                width: 100%;
+            }
+            .nav-links a:not(.nav-btn) {
+                font-size: 1rem;
+                display: block;
+                padding: 0.5rem 0;
+            }
+            .nav-btn {
+                width: 80%;
+                margin: 1rem auto 0.5rem auto;
+                display: block;
+                text-align: center;
+            }
+            .theme-toggle-btn {
+                margin: 0.5rem auto;
+                font-size: 1.3rem;
+            }
+            .nav-links .theme-toggle-container {
+                order: -1;
+                padding: 0.5rem 0;
+            }
+            .mobile-menu-icon { display: flex; }
+            .mobile-menu-icon.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+            .mobile-menu-icon.open span:nth-child(2) { opacity: 0; }
+            .mobile-menu-icon.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+            .project-detail-main-content { padding-top: 7rem; }
+            .project-detail-container { padding: 1.5rem; margin: 1rem auto; }
+            .project-detail-container h1.project-page-title { font-size: 1.8rem; }
+            .project-detail-container h2 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="project-detail-page-wrapper">
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html#home" class="logo" title="Bibek Dulal - Homepage">
+                <!-- Make sure these image paths are correct relative to this detail page OR use absolute paths if hosted -->
+                <img src="D:\Python\pictures\logodark.png" alt="Bibek Dulal Logo" class="logo-image logo-img-dark-theme">
+                <img src="D:\Python\pictures\logolight.png" alt="Bibek Dulal Logo" class="logo-image logo-img-light-theme">
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <!-- Links point back to sections in index.html -->
+                <li><a href="index.html#home">Home</a></li>
+                <li><a href="index.html#about">About Me</a></li>
+                <li><a href="index.html#skills">Skills</a></li>
+                <li><a href="index.html#projects">Portfolio</a></li>
+                <li><a href="index.html#contact" class="nav-btn">Contact Me</a></li>
+                <li class="theme-toggle-container">
+                    <button id="themeToggleBtn" class="theme-toggle-btn" aria-label="Toggle theme">
+                        <i class="fas fa-moon"></i> <!-- Icon changes with JS -->
+                    </button>
+                </li>
+            </ul>
+            <div class="mobile-menu-icon" id="mobileMenuIcon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area for Project Details -->
+    <main class="project-detail-main-content">
+        <div class="container project-detail-container">
+            <!-- START YOUR PROJECT DETAILS HERE -->
+            <!-- ================================== -->Internship Project
+
+            <h1 class="project-page-title">Study and design of silo in CG Brewery </h1>
+
+             <h2>Description</h2>
+
+
+            <p>
+                This project focused on the role and design of silos used in brewery operations, 
+                particularly for the storage of raw materials such as malted barley. The study 
+                explored silo types, construction materials, capacity design, and storage conditions 
+                necessary to maintain the quality and consistency of brewing ingredients.
+
+                Key aspects included material flow behavior, aeration systems, moisture control, 
+                and the prevention of issues like caking or pest infestation. The integration of 
+                silos into the overall process flow was also analyzed, including their impact on 
+                inventory management and production continuity.
+
+                Through this study, the importance of proper silo operation and maintenance in ensuring 
+                smooth brewing processes and raw material preservation was clearly demonstrated.
+            </p>
+            <h2>My Role & Responsibilities</h2>
+            <p>
+                Reseached about silo. Used AutoCAD to make a 3D model of a silo.
+                Some contribution in it's mechanical design using ASME code.          
+            </p>
+
+            <h2>Process & Methodology</h2>
+            <p>
+                The project began with a detailed study on silos and it's history,application and mechanical design. After the study
+                Mechanical design for a 38 Ton silo was done and it's volume, dead and live loads, sesmic and wind loads were calculated. Then, it's 3D model was 
+                created in AutoCAD plant 3D. Finally, it was documented and submitted to CG brewery Pvt. Ltd.
+ 
+            </p>
+
+            <h2>Technologies / Skills</h2>
+            <ul>
+                
+                <li>AutoCAD (for 3D silo design)</li>
+                <li> Research </li>
+            
+            </ul>
+
+            <h2>Image Gallery </h2>
+            
+            <div class="image-gallery">
+                <img src="D:\Python\pictures\silo1.png" alt="Isometric view">
+                <img src="D:\Python\pictures\silo2.png" alt="Top view 3D">
+            
+            </div>
+
+            <h2>Results & Outcomes</h2>
+            <p>
+                This study helped me understand the importance and history of Silos. Essentially, it helped to understand mechanical design 
+                of silos, to calculated load and weight. So, a 38 Ton silo can be built with structural steel with 96.23 Mpa allowable shear stress. 
+            </p>
+
+            <!-- ================================ -->
+            <!-- END YOUR PROJECT DETAILS HERE -->
+
+            <div style="text-align: center;">
+                <a href="index.html#projects" class="back-to-portfolio-link">
+                    <i class="fas fa-arrow-left"></i> Back to Portfolio
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-social-links">
+                 <a href="#" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                 <a href="#" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                 <a href="mailto:bibekdulal057@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
+            </div>
+            <p>© <span id="currentYear"></span> Bibek Dulal. All rights reserved.</p>
+            <p style="font-size: 0.8em;">Original design inspiration acknowledged.</p>
+        </div>
+    </footer>
+</div> <!-- End .project-detail-page-wrapper -->
+
+    <script>
+        // --- DOM Elements ---
+        const navbar = document.getElementById('navbar');
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
+        const body = document.body;
+        const currentYearSpan = document.getElementById('currentYear');
+        const mobileMenuIcon = document.getElementById('mobileMenuIcon');
+        const navLinksMenu = document.getElementById('navLinks');
+
+        // --- Theme Toggle ---
+        if (themeToggleBtn) {
+            const themeIcon = themeToggleBtn.querySelector('i');
+            function setTheme(theme) {
+                if (theme === 'light') {
+                    body.classList.add('light-theme');
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                    localStorage.setItem('portfolioTheme', 'light');
+                } else {
+                    body.classList.remove('light-theme');
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                    localStorage.setItem('portfolioTheme', 'dark');
+                }
+            }
+
+            themeToggleBtn.addEventListener('click', () => {
+                if (body.classList.contains('light-theme')) {
+                    setTheme('dark');
+                } else {
+                    setTheme('light');
+                }
+            });
+
+            const savedTheme = localStorage.getItem('portfolioTheme');
+            const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+
+            if (savedTheme) {
+                setTheme(savedTheme);
+            } else if (prefersLight) { // If no saved theme, check OS preference
+                setTheme('light');
+            } else { // Default to dark if no saved theme and OS is not light
+                setTheme('dark');
+            }
+        }
+
+        // --- Navbar scroll effect ---
+        if (navbar) {
+            // Set initial state based on scroll position (e.g. if page is reloaded scrolled down)
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+        }
+
+        // --- Mobile Menu Toggle ---
+        if (mobileMenuIcon && navLinksMenu) {
+            mobileMenuIcon.addEventListener('click', () => {
+                navLinksMenu.classList.toggle('active');
+                mobileMenuIcon.classList.toggle('open');
+            });
+            // Close mobile menu if a link is clicked (useful if there were #links on this page)
+            navLinksMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (navLinksMenu.classList.contains('active')) {
+                        navLinksMenu.classList.remove('active');
+                        mobileMenuIcon.classList.remove('open');
+                    }
+                });
+            });
+        }
+
+        // --- Footer Current Year ---
+        if (currentYearSpan) {
+            currentYearSpan.textContent = new Date().getFullYear();
+        }
+
+        console.log('🚀 Project Detail Page Initialized!');
+    </script>
+</body>
+</html>
